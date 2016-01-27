@@ -1,6 +1,5 @@
-package com.valuepotion.analytics.bases;
+package com.valuepotion.analytics.events;
 
-import com.valuepotion.analytics.events.Event;
 
 public abstract class IntervalEvent extends Event {
 	private int count;

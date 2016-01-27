@@ -1,6 +1,5 @@
 package com.valuepotion.analytics.events;
 
-import com.valuepotion.analytics.bases.IntervalEvent;
 
 public class Update extends IntervalEvent {
 
