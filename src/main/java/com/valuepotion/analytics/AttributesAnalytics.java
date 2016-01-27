@@ -322,7 +322,7 @@ public class AttributesAnalytics extends AnalyticsDriver {
 		private String[] merge(String[] a, String[] s) throws Exception {
 			String[] da = ds2a(s);
 			
-			Aggregator[] aggregators = Attributes.createAggregators();
+			Aggregator[] aggregators = Attributes.aggregators();
 			
 			Attributes[] values = Attributes.values();
 			for (Attributes value : values) {

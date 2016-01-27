@@ -150,7 +150,7 @@ public class PeriodicAnalytics extends AnalyticsDriver {
 			
 			Aggregator[] aggregators;
 			try {
-				aggregators = PeriodicStatistics.createAggregators();
+				aggregators = PeriodicStatistics.aggregators();
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}

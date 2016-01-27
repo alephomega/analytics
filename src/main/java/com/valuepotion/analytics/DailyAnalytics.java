@@ -72,7 +72,7 @@ public class DailyAnalytics extends AnalyticsDriver {
 			
 			Aggregator[] aggregators;
 			try {
-				aggregators = DailyStatistics.createAggregators();
+				aggregators = DailyStatistics.aggregators();
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}

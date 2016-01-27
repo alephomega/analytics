@@ -101,7 +101,7 @@ public enum DailyStatistics {
 		this.params = params;
 	}
 
-	public static Aggregator[] createAggregators() throws Exception {
+	public static Aggregator[] aggregators() throws Exception {
 		DailyStatistics[] values = values();
 		
 		Aggregator[] aggregators = new Aggregator[values.length];

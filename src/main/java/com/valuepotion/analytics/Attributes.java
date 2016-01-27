@@ -166,7 +166,7 @@ public enum Attributes {
 		return LineDataTool.asLine(Type.ATTRIBUTES.getSymbol(), attributes);
 	}
 	
-	public static Aggregator[] createAggregators() throws Exception {
+	public static Aggregator[] aggregators() throws Exception {
 		Attributes[] values = values();
 		
 		Aggregator[] aggregators = new Aggregator[values.length];
