@@ -170,7 +170,7 @@ public class AttributesAnalytics extends AnalyticsDriver {
 					if (lost) {
 						lifecycle = SessionLifecycle.LOST;
 					} else if (atLisk) {
-						lifecycle = SessionLifecycle.AT_LISK;
+						lifecycle = SessionLifecycle.AT_RISK;
 					}
 					
 				} else {

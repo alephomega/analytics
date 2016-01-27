@@ -3,7 +3,7 @@ package com.valuepotion.analytics;
 public enum SessionLifecycle {
 	NEW,
 	ACTIVE,
-	AT_LISK,
+	AT_RISK,
 	LOST,
 	WINBACK,
 	UNKNOWN;
