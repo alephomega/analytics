@@ -275,4 +275,8 @@ public enum DailyStatistics {
 		
 		return lines;
 	}
+	
+	public static String[] asFields(String line) {
+		return LineDataTool.asFields(line);
+	}
 }

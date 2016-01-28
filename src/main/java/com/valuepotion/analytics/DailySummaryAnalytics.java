@@ -261,73 +261,73 @@ public class DailySummaryAnalytics extends HiveDataAnalyticsWorkflow {
 			String[] keys = LineDataTool.asFields(key.toString());
 			k.set(LineDataTool.asLine(new String[] { sessionTime[0] + keys[0], keys[1] }));
 			
-			String[] sessionData = SessionData.init();
+			String[] session = SessionData.init();
 			SessionData.INSTALLATION_ID.set(
-					sessionData, 
+					session, 
 					attribution == null ? StringUtils.EMPTY : attribution.getId(), 
 					dataTool);
 			
 			SessionData.INSTALLATION_TIME.set(
-					sessionData, 
+					session, 
 					attribution == null ? StringUtils.EMPTY : attribution.getTime(), 
 					dataTool);
 
 			SessionData.UPDATE_COUNT.set(
-					sessionData, 
+					session, 
 					updateCount,
 					dataTool);
 			
 			SessionData.PURCHASES.set(
-					sessionData, 
+					session, 
 					agglomerator.elements(), 
 					dataTool);
 
 			SessionData.SESSION_START_TIME.set(
-					sessionData, 
+					session, 
 					sessionTime[0], 
 					dataTool);
 
 			SessionData.SESSION_DURATION.set(
-					sessionData, 
+					session, 
 					sd, 
 					dataTool);
 
 			SessionData.OS_VERSION.set(
-					sessionData, 
+					session, 
 					fields[4], 
 					dataTool);
 	
 			SessionData.APP_VERSION.set(
-					sessionData, 
+					session, 
 					fields[5], 
 					dataTool);
 			
 			SessionData.DEVICE_MODEL.set(
-					sessionData, 
+					session, 
 					fields[6], 
 					dataTool);
 			
 			SessionData.COUNTRY.set(
-					sessionData, 
+					session, 
 					fields[7], 
 					dataTool);
 			
 			SessionData.BIRTH_YEAR.set(
-					sessionData, 
+					session, 
 					fields[8], 
 					dataTool);
 			
 			SessionData.GENDER.set(
-					sessionData, 
+					session, 
 					fields[9], 
 					dataTool);
 
 			SessionData.LEVELS.set(
-					sessionData, 
+					session, 
 					filter.values(SessionData.LEVELS.getIndex()), 
 					dataTool);
 			
-			v.set(SessionData.asLine(sessionData));
+			v.set(SessionData.asLine(session));
 			
 			context.write(k, v);
 		}
