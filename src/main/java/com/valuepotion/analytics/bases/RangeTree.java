@@ -167,10 +167,10 @@ public class RangeTree<T> {
 			list.add(x.interval);
 			found1 = true;
 		}
-		if (x.left != null && x.left.max >= interval.getFrom()) {
+		if (x.left != null && x.left.max > interval.getFrom()) {
 			found2 = searchAll(x.left, interval, list);
 		}
-		if (found2 || x.left == null || x.left.max < interval.getFrom()) {
+		if (found2 || x.left == null || x.left.max <= interval.getFrom()) {
 			found3 = searchAll(x.right, interval, list);
 		}
 		return found1 || found2 || found3;

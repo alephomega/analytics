@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.hadoop.conf.Configuration;
 
 import com.valuepotion.analytics.aggregators.Aggregator;
 import com.valuepotion.analytics.aggregators.IntegerSum;
@@ -233,8 +234,6 @@ public enum Attributes {
 				(List<List<CustomerEvent<UpdateSummary>>>) Attributes.UPDATES.get(attributes, dataTool));
 		
 		return timeline;
-		
-		
 	}
 
 	private static void addSessionEvents(Timeline timeline, List<List<CustomerEvent<SessionSummary>>> groups) {
@@ -278,5 +277,29 @@ public enum Attributes {
 			}
 		}
 	}
-
+	
+	
+	public static void main(String[] args) {
+		String[] attributes = Attributes.init();
+		attributes[3] = "4i3";
+		attributes[4] = "4i39d5";
+		attributes[5] = "4i3\0024i6";
+		attributes[6] = "4i39d5\0024i63okq";
+		attributes[8] = "4i3\0031\0040\0054i3\00371\0046072\0024i4\00310\0042010\0024i5\0036\004323\0054i6\00330\00414391\0024i7\0034\004375\0024ia\00331\004876\0024ib\0034\004193";
+		
+		
+		Configuration conf = new Configuration();
+		conf.set("valuepotion.analytics.base-date", "20151231");
+		LineDataTool dataTool = new LineDataTool(conf);
+		
+		for (int i = 0; i < 1000; i++) {
+			Timeline timeline = Attributes.getTimeline(attributes, dataTool);
+			String from7 = dataTool.beforeDate(7);
+			int freq = timeline.getCount(new Session(from7), new Session(dataTool.beforeDate(1)));
+			
+			if (freq != 5) {
+				System.err.println("freq != 5");
+			}
+		}
+	}
 }

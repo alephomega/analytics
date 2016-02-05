@@ -23,7 +23,6 @@ public class SessionsSerializer implements Serializer<List<List<CustomerEvent<Se
 				if (children.length > 0) {
 					String date = dataTool.decodeDate(children[0]);
 					String[] grandChildren = LineDataTool.asFields(FieldSeparator.GRANDCHILD_ELEMENTS, children[1]);
-					
 					int count = Integer.parseInt(grandChildren[0]);
 					int duration = Integer.parseInt(grandChildren[1]);
 					

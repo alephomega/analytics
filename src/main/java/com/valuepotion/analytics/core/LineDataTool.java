@@ -106,7 +106,7 @@ public class LineDataTool {
 	}
 	
 	public int diffDays(String from) {
-		return diffDays(baseTime, asTimeMillis(from)) + 1;
+		return diffDays(baseTime, asTimeMillis(from));
 	}
 	
 	public int[] diffDays(String[] dates) {

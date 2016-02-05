@@ -82,16 +82,12 @@ public class DailyAnalytics extends AnalyticsDriver {
 				
 				String firstSessionDate = (String) Attributes.FIRST_SESSION_DATE.get(attributes, dataTool);
 				String[] installationDates = (String[]) Attributes.INSTALLATION_DATES.get(attributes, dataTool);
-				if (installationDates.length > 0) {
-					
-					if (dataTool.diffDays(installationDates[installationDates.length - 1]) == 0) {
-						if (dataTool.diffDays(firstSessionDate) > 0) {
-							DailyStatistics.REINSTALLATION_COUNT.add(1, aggregators);
-							
-						} else {
-							DailyStatistics.INSTALLATION_COUNT.add(1, aggregators);
-						}
-					}
+				
+				int d = dataTool.diffDays(firstSessionDate);
+				if (d == 0) {
+					DailyStatistics.INSTALLATION_COUNT.add(1, aggregators);
+				} else if (installationDates.length > 0 && dataTool.diffDays(installationDates[installationDates.length - 1]) == 0) {
+					DailyStatistics.REINSTALLATION_COUNT.add(1, aggregators);
 				}
 				
 				DailyStatistics.DAU.add(1, aggregators);
@@ -170,7 +166,9 @@ public class DailyAnalytics extends AnalyticsDriver {
 					for (String birthYear : elements) {
 						int age = getAge(birthYear);
 						
-						if (age > 0) {
+						if (age < 0) {
+							DailyStatistics.AGES.add(UNKNOWN, aggregators);
+						} else {
 							DailyStatistics.AGES.add(String.valueOf(age), aggregators);
 						}
 					}
@@ -186,24 +184,23 @@ public class DailyAnalytics extends AnalyticsDriver {
 				}
 				
 
-				String from30 = dataTool.beforeDate(29);
-				String from7 = dataTool.beforeDate(6);
+				String from30 = dataTool.beforeDate(30);
+				String from7 = dataTool.beforeDate(7);
 				
-				int freq = timeline.getCount(new Session(from30), new Session(dataTool.baseDate()));
+				int freq = timeline.getCount(new Session(from30), new Session(dataTool.beforeDate(1)));
 				DailyStatistics.FREQUENCY_USERS30.add(freq, aggregators);
-				
 				if (purchases.size() > 0) {
 					DailyStatistics.FREQUENCY_REVENUE30.add(new Pair<Integer, List<Event>>(freq, purchases), aggregators);
 				}
 
-				freq = timeline.getCount(new Session(from7), new Session(dataTool.baseDate()));
+				freq = timeline.getCount(new Session(from7), new Session(dataTool.beforeDate(1)));
 				DailyStatistics.FREQUENCY_USERS7.add(freq, aggregators);
 				if (purchases.size() > 0) {
 					DailyStatistics.FREQUENCY_REVENUE7.add(new Pair<Integer, List<Event>>(freq, purchases), aggregators);
 				}
 				
 				String d0 = timeline.getDate0();
-				int r = dataTool.diffDays(dataTool.baseDate(), d0);
+				int r = dataTool.diffDays(d0);
 				
 				DailyStatistics.RETENTION90.add(r, aggregators);
 				DailyStatistics.REVENUE90.add(new Pair<Integer, List<Event>>(r, purchases), aggregators);
@@ -214,13 +211,14 @@ public class DailyAnalytics extends AnalyticsDriver {
 		}
 		
 		private int getAge(String birthYear) {
-			if (birthYear.length() == 8) {
-				birthYear = birthYear.substring(0, 4);
-			}
-			
-			if (birthYear.length() == 4) {
+			if (birthYear.length() >= 4) {
 				try {
-					return Integer.parseInt(dataTool.baseDate().substring(0, 4)) - Integer.parseInt(birthYear) + 1;
+					int by = Integer.parseInt(birthYear.substring(0, 4));
+					if (by <= 0) {
+						return -1;
+					}
+					
+					return Integer.parseInt(dataTool.baseDate().substring(0, 4)) - by;
 				} catch(Exception e) { }
 			}
 			

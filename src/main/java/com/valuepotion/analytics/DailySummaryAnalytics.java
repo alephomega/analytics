@@ -141,8 +141,8 @@ public class DailySummaryAnalytics extends HiveDataAnalyticsWorkflow {
 			 * fields: { 
 			 * 	0: P_CLIENTID 			1: DEVICEID 			2: SESSION 				3: REVENUEMOUNT 	
 			 * 	4: CURRENCY 			5: EVENTNAME 			6: EVENTID				7: DT
-			 * 	8: DEVICEOS				9: DEVICEOSVERSION		10: APPVERSION 			11: DEVICEMODELNAME 	12: COUNTRY 
-			 * 	13: USERINFO_BIRTH	 	14: USERINFO_GENDER 	15: USERINFO_LEVEL
+			 * 	8: DEVICEOS				9: DEVICEOSVERSION		10: APPVERSION 			11: DEVICEMODELNAME 	12: COUNTRY   	13: DISTRICT
+			 * 	14: USERINFO_BIRTH	 	15: USERINFO_GENDER 	16: USERINFO_LEVEL
 			 * }
 			 * 
 			 */
@@ -157,6 +157,8 @@ public class DailySummaryAnalytics extends HiveDataAnalyticsWorkflow {
 				r = Double.parseDouble(fields[3]);
 			} catch (NumberFormatException e) { }
 
+			String country = validate(fields[12]);
+			String district = validate(fields[13]);
 			v.set(LineDataTool.asLine(
 					new String[] { 
 						fields[5].equals("install") ? fields[6] : StringUtils.EMPTY,
@@ -166,10 +168,10 @@ public class DailySummaryAnalytics extends HiveDataAnalyticsWorkflow {
 						validate(fields[8]) + validate(fields[9]), 
 						validate(fields[10]), 
 						validate(fields[11]),
-						validate(fields[12]), 
-						validate(fields[13]),
-						validate(fields[14]), 
-						validate(fields[15])
+						(district.length() == 0 || district.length() > 2) ? country : district, 
+						validate(fields[14]),
+						validate(fields[15]), 
+						validate(fields[16])
 					}));
 			
 			context.write(k, v);
